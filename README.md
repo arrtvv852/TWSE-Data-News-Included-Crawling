@@ -28,4 +28,4 @@ DataFrame with the columns:
 - 最後揭示賣量
 - 本益比
 ### reference
-The source code of the Download is original based on finlab (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
+The source code of the Download is original based on finlab website (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
