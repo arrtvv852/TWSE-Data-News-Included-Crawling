@@ -35,19 +35,19 @@ Generate stock training data with correspond features from the input of dictiona
 
 ## class Feature
 Given the corresponding input, get some financial features added.
-# Input
-- date (str)
+### Input
+- date (str)\n
   with format "YYYYMMDD" or "YYYY-MM-DD" or "YYYY/MM/DD"
-- target (pandas.DataFrame)
+- target (pandas.DataFrame)\n
   with basic stock attributes columns including closing price, opening price, highest price, lowest price & volume of transactions
-- dataset (dictionary)
+- dataset (dictionary)\n
   obtained by output of Download.py
-- features (iterable object)
+- features (iterable object)\n
   including # corresponding to a feature - currently 0~9 developed, default: range(10)
-- n (int)
+- n (int)\n
   parameter to calculate the features means how many days previous than the target data day you want to observe
-# Functions
-- Feature.verify:
+### Functions
+- Feature.verify:\n
   Check if attributes data, target, dataset of Feature object reasonable. Print reason if not unreasonable.
   (continue...)
 
