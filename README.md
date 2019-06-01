@@ -29,3 +29,7 @@ DataFrame with the columns:
 - 本益比 (PE ratio)
 ### reference
 The source code of the Download is original based on finlab website (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
+
+## Features.py
+Generate stock training data with correspond features from the input of dictionary files obtained by Download.py.
+(Still developing...)
