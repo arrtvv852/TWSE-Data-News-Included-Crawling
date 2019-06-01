@@ -23,9 +23,9 @@ DataFrame with the columns:
 - 漲跌(+/-) (Ups Downs)
 - 漲跌價差 (Ups & Downs Difference)
 - 最後揭示買價 (Final Purchasing Price)
-- 最後揭示買量 (Final Purchasing Amont)
+- 最後揭示買量 (Final Purchasing Amount)
 - 最後揭示賣價 (Final Selling Price)
-- 最後揭示賣量 (Final Selling Amont)
+- 最後揭示賣量 (Final Selling Amount)
 - 本益比 (PE ratio)
 ### reference
 The source code of the Download is original based on finlab website (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
