@@ -13,13 +13,13 @@ import io
 
 
 class Feature:
-    def __init__(self, date, target, dataset, features = range(10)):
+    def __init__(self, date, target, dataset, features = range(10), n = 10):
         self.date = date
         self.target = target
         self.dataset = dataset
         self.features = features
         
-        self.n = 10
+        self.n = n
         
         if self.verify():
             self.Reset(self.n, self.date, self.dataset)
@@ -37,9 +37,7 @@ class Feature:
         if type(self.dataset) != type({}) or len(self.dataset) < max(26, self.n):
             Pass = False
             reason = reason + 'Dataset format not satisfied; '
-        if Pass:
-            print("Input Verified!")
-        else:
+        if not Pass:
             reason = reason + 'Please Give Correct Input!'
             print(reason)
         return Pass
@@ -52,7 +50,7 @@ class Feature:
         dataset = {}
         i = 0
         cnt = 0
-        while cnt < max(26, n):
+        while cnt < max(27, n+1):
             t = str(time-datetime.timedelta(i)).replace("-", "")
             i += 1
             if t in data.keys():
@@ -115,8 +113,6 @@ class Feature:
             elif f == 9:
                 self.target["CCI"+str(self.n)] = self.CCI
                 
-    def getFile(self):
-        return self.target
         
     def getSMA(self, n, close):
         #Simple Moving Average
@@ -197,33 +193,34 @@ class Feature:
         
 class TrainGenerate:
     def __init__(self, file_name, start, end, N = [10, 30]):
-        self.Data = self.loadfile(file_name)
+        self.File = self.loadfile(file_name)
         self.Set_param(start, end, N)
+        self.Data = pd.DataFrame([])
         
     def loadfile(self, file_name):
         with io.open(file_name, 'rb') as outfile:  
-            Data = pickle.load(outfile)
-        return Data
+            File = pickle.load(outfile)
+        return File
     
     def Set_param(self, start, end, N = [10, 30]):
         start = str(start).split(' ')[0].replace('-','').replace('/','')
         end = str(end).split(' ')[0].replace('-','').replace('/','')
         reason = ""
         Pass = True
-        if start not in self.Data.keys():
+        if start not in self.File.keys():
             reason = reason + 'Start time incorrect!'
             Pass = False
-        if end not in self.Data.keys():
+        if end not in self.File.keys():
             reason = reason + 'Start time incorrect!'  
-        if hasattr(N, "__iter__") and Pass:
             Pass = False
+        if hasattr(N, "__iter__") and Pass:
             year = int(start[:4])
             month = int(start[4:6])
             day = int(start[6:8])
             Time = datetime.date(year, month, day)
             Time = Time - datetime.timedelta(max(26, max(N)))
             t = str(Time).replace("-", "")
-            if t not in self.Data.keys():
+            if t not in self.File.keys():
                 reason = reason + 'Too less data downloaded!'
                 Pass = False
         else:
@@ -238,12 +235,38 @@ class TrainGenerate:
         else:
             reason = reason + 'Please retry!'
             print(reason)
+            
+    def generate(self):
+        year = int(self.trainS[:4])
+        month = int(self.trainS[4:6])
+        day = int(self.trainS[6:8])
+        D = datetime.date(year, month, day)
+        year = int(self.trainE[:4])
+        month = int(self.trainE[4:6])
+        day = int(self.trainE[6:8])
+        end = datetime.date(year, month, day)
+        while D <= end:
+            print(str(D))
+            date = str(D).replace('-','').replace('/','')
+            while date not in self.File.keys():
+                D = D + datetime.timedelta(1)
+                date = str(D).replace('-','').replace('/','')
+                if D > end:
+                    break
+            target = self.File[date]
+            for n in self.N:
+                F = Feature(date, target, self.File, n = n)
+                self.F = F
+                F.getFeatures()
+                F.addFeature()
+                self.Data = pd.concat([self.Data, F.target])
+            D = D + datetime.timedelta(1)
 
+    def save(self):
+        name = self.trainS+"-to-"+self.trainE+"-training"
+        with io.open(name + '.txt', 'wb') as outfile:  
+            pickle.dump(self.Data, outfile, protocol=pickle.HIGHEST_PROTOCOL)
 
-with io.open('onemonth.txt', 'rb') as outfile:  
-        Data = pickle.load(outfile)
-        
-F = Feature("20190524", Data["20190524"], Data)
-F.getFeatures()
-F.addFeature()
-test = F.getFile()
+GF = TrainGenerate("Stock-1968days-to-20190521.txt", "20110901", "20180831")
+GF.generate()
+GF.save()

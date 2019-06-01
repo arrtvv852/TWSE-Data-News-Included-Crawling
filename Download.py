@@ -95,6 +95,16 @@ class Crawl:
         name = name + str(self.days) + 'days-to-' + str(self.date)
         with io.open(name + '.txt', 'wb') as outfile:  
             pickle.dump(self.Data, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+            
+def merge_file(file_list):
+    File = {}
+    for f in file_list:
+        with io.open(f, 'rb') as outfile:  
+            file = pickle.load(outfile)
+        File.update(file)
+    file_name = "Stock-"+str(len(File))+"days-to-"+str(max(np.array(list(File.keys())).astype(int)))
+    with io.open(file_name + '.txt', 'wb') as outfile:  
+        pickle.dump(File, outfile, protocol=pickle.HIGHEST_PROTOCOL)
 
 
 print("How many days you want to scrap?")
@@ -108,5 +118,6 @@ while len(end)<8:
 crawl = Crawl(D, end) #20170521
 crawl.download()
 crawl.save()
-
-
+'''
+Files = ["Stock-365days-to-20190521.txt", "Stock-365days-to-20180521.txt", "Stock-365days-to-20170521.txt", "Stock-365days-to-20160522.txt", "Stock-1460days-to-20150523.txt"]
+merge_file(Files)'''
