@@ -1,5 +1,5 @@
 # TWSE-Data-Scraping
-Scrap stock related data from twse website.
+Scrap stock related data from twse website. **(The program is under developing, so be aware of some possible incorrect value in it if you want to use it...)**
 
 # Download.py
 Excute and give the period you want to download from (http://www.twse.com.tw/en/).
