@@ -119,5 +119,5 @@ crawl = Crawl(D, end) #20170521
 crawl.download()
 crawl.save()
 '''
-Files = ["Stock-365days-to-20190521.txt", "Stock-365days-to-20180521.txt", "Stock-365days-to-20170521.txt", "Stock-365days-to-20160522.txt", "Stock-1460days-to-20150523.txt"]
+Files = ["Stock-365days-to-20190521.txt", "Stock-365days-to-20180521.txt", "Stock-365days-to-20170521.txt", "Stock-365days-to-20160522.txt", "Stock-1460days-to-20150523.txt", "Stock-365days-to-20110524.txt", "Stock-365days-to-20100524.txt"]
 merge_file(Files)'''

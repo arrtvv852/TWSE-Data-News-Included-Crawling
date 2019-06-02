@@ -10,19 +10,20 @@ import pandas as pd
 import datetime
 import copy
 import io
+import os
 
 
 class Feature:
     def __init__(self, date, target, dataset, features = range(10), n = 10):
         self.date = date
         self.target = target
-        self.dataset = dataset
         self.features = features
+        self.dataset = dataset
         
         self.n = n
         
         if self.verify():
-            self.Reset(self.n, self.date, self.dataset)
+            self.Reset(n, date, dataset)
         
         
     def verify(self):
@@ -56,12 +57,35 @@ class Feature:
             if t in data.keys():
                 dataset[t] = data[t]
                 cnt += 1
-                
+        
+        self.date = date
+        self.n = n
+        self.dataset = data
+        
         self.close = pd.DataFrame({k:d['收盤價'] for k,d in dataset.items()})
         self.open = pd.DataFrame({k:d['開盤價'] for k,d in dataset.items()})
         self.high = pd.DataFrame({k:d['最高價'] for k,d in dataset.items()})
         self.low = pd.DataFrame({k:d['最低價'] for k,d in dataset.items()})
         self.volume = pd.DataFrame({k:d['成交股數'] for k,d in dataset.items()})
+        
+    def addLabel(self, n_day = 1):
+        year = int(self.date[:4])
+        month = int(self.date[4:6])
+        day = int(self.date[6:8])
+        time = datetime.date(year, month, day)
+        future = str(time + datetime.timedelta(n_day)).replace("-", "")
+        while future not in self.dataset.keys():
+            year = int(future[:4])
+            month = int(future[4:6])
+            day = int(future[6:8])
+            time = datetime.date(year, month, day)
+            if time >= datetime.date.today():
+                print("label not exist yet!")
+                break
+            else:
+                future = str(time + datetime.timedelta(1)).replace("-", "")
+        self.target["future_"+str(n_day)+"_price"] = self.dataset[future]["收盤價"]
+        
     
     def getFeatures(self):
         for f in self.features:
@@ -112,6 +136,9 @@ class Feature:
                     self.target["AD"] = self.AD
             elif f == 9:
                 self.target["CCI"+str(self.n)] = self.CCI
+                
+        self.addLabel()
+        self.addLabel(7)
                 
         
     def getSMA(self, n, close):
@@ -202,7 +229,7 @@ class TrainGenerate:
             File = pickle.load(outfile)
         return File
     
-    def Set_param(self, start, end, N = [10, 30]):
+    def Set_param(self, start, end, N):
         start = str(start).split(' ')[0].replace('-','').replace('/','')
         end = str(end).split(' ')[0].replace('-','').replace('/','')
         reason = ""
@@ -211,7 +238,7 @@ class TrainGenerate:
             reason = reason + 'Start time incorrect!'
             Pass = False
         if end not in self.File.keys():
-            reason = reason + 'Start time incorrect!'  
+            reason = reason + 'End time incorrect!'  
             Pass = False
         if hasattr(N, "__iter__") and Pass:
             year = int(start[:4])
@@ -219,8 +246,12 @@ class TrainGenerate:
             day = int(start[6:8])
             Time = datetime.date(year, month, day)
             Time = Time - datetime.timedelta(max(26, max(N)))
-            t = str(Time).replace("-", "")
-            if t not in self.File.keys():
+            t1 = str(Time).replace("-", "")
+            Time = Time - datetime.timedelta(1)
+            t2 = str(Time).replace("-", "")
+            Time = Time - datetime.timedelta(1)
+            t3 = str(Time).replace("-", "")
+            if t1 not in self.File.keys() and t2 not in self.File.keys() and t3 not in self.File.keys():
                 reason = reason + 'Too less data downloaded!'
                 Pass = False
         else:
@@ -256,17 +287,43 @@ class TrainGenerate:
             target = self.File[date]
             for n in self.N:
                 F = Feature(date, target, self.File, n = n)
-                self.F = F
                 F.getFeatures()
                 F.addFeature()
-                self.Data = pd.concat([self.Data, F.target])
+                F.target["Date"] = date
+            self.Data = pd.concat([self.Data, F.target])
             D = D + datetime.timedelta(1)
 
     def save(self):
+        self.Data = self.Data.iloc[:, [0, 28, 26, 27] + list(range(1, 15)) + list(range(16, 26)) + list(range(29, len(self.Data.columns)))]
+        col = ['stock_name', 'Date', 'future_1_price', 'future_7_price', 'shares_sold_volumne', 'transactions_volumne',
+       'Turnover', 'opening', 'highest', 'lowest', 'closing', 'up_down', 'difference', 'final_buying_price',
+       'final_buying_amount', 'final_selling_price', 'final_selling_amount', 'PE_ratio', 'SMA10', 'WMA10', 'M10', 'K',
+       'D10', 'RSI10', 'MACD10', 'LW10', 'AD', 'CCI10', 'SMA30', 'WMA30',
+       'M30', 'D30', 'RSI30', 'MACD30', 'LW30', 'CCI30']
+        self.Data.columns = col
+        self.Data.index.name = "stock_id"
         name = self.trainS+"-to-"+self.trainE+"-training"
-        with io.open(name + '.txt', 'wb') as outfile:  
-            pickle.dump(self.Data, outfile, protocol=pickle.HIGHEST_PROTOCOL)
+        self.Data.to_csv(name + ".csv")
 
-GF = TrainGenerate("Stock-1968days-to-20190521.txt", "20110901", "20180831")
+
+
+
+print("Please Give Input File Name")
+file = input()
+while not os.path.isfile(file):
+    print("File not exist! Please Retry!")
+    file = input()
+print("Start date of your expected period? (formate like '20190530')")
+start = input()
+while len(start)<8:
+    print("please give a right format (formate like '20190530')...")
+    start = input()
+print("End date of your expected period? (formate like '20190530')")
+end = input()
+while len(end)<8:
+    print("please give a right format (formate like '20190530')...")
+    end = input()
+#GF = TrainGenerate("Stock-2468days-to-20190521.txt", "20090901", "20180831")
+GF = TrainGenerate(file, start, end)
 GF.generate()
 GF.save()
