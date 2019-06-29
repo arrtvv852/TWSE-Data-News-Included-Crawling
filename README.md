@@ -30,9 +30,17 @@ DataFrame with the columns:
 ### reference
 The source code of the Download is original based on finlab website (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
 
-# Features.py (Still developing...)
+# Features.py
 Generate stock training data with correspond features from the input of dictionary files obtained by Download.py.
-
+## User Manual
+- **Please Give Input File Name**
+  Give the file name you download by Download.py (with the format like 'Stock-2468days-to-20190521.txt').
+- **Start date of your expected period? (formate like '20190530')**
+  Give the start date you want to generate training data (with format "YYYYMMDD" or "YYYY-MM-DD" or "YYYY/MM/DD", and shold be included in your txt file)
+- **End date of your expected period? (formate like '20190530')**
+  The end date you want to generate training data (with format "YYYYMMDD" or "YYYY-MM-DD" or "YYYY/MM/DD", and shold be included in your txt file)
+- Result:
+  After finish the input above, you will get the desired training csv file "YYYYMMDD-to-YYYYMMDD-training.csv" if your input format is correct.
 ## class Feature
 Given the corresponding input, get some financial features added.
 ### Input
@@ -94,8 +102,7 @@ Load the stock data you just download by Download.py and transform it to ML trai
 - **generate()**
   Generate the desired training data with given parameters Data Frame as self.Data.
 - **save()**
-  Save the data you just generated as "20090901-to-20180831-training".
+  Save the data you just generated as "20090901-to-20180831-training.csv".
 
-(continue...)
 
 
