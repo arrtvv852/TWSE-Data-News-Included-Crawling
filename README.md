@@ -63,15 +63,15 @@ Given the corresponding input, get some financial features added.
   given current closing price (close), highest price (high), and lowest price (low), calculate the Stochastic-K value and add as feature self.K.
 - **getD(n, close, low, high):**
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Stochastic-D value and add as feature self.D.
--- **getRSI(n, close):**
+- **getRSI(n, close):**
   given n days closing price (close), calculate the n-days Related Strengh Index and add as feature self.RSI.
--- **getMACD(close, long = 26, short = 12):
+- **getMACD(close, long = 26, short = 12):
   given L days closing price (close) and parameters long-L and short-S (L>S), calculate the n-days Moving Average Convergence Divergence and add as feature self.MACD.
--- **getLW(n, close, low, high):**
+- **getLW(n, close, low, high):**
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Larry William's R value and add as feature self.LW.
--- **getAD(close, low, high):
+- **getAD(close, low, high):
   given current closing price (close), highest price (high), and lowest price (low), calculate the A/D (Accumulation/Distribution) Oscillator value and add as feature self.AD.
--- **getCCI(n, close, low, high):**
+- **getCCI(n, close, low, high):**
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Commodity Channel Index value and add as feature self.CCI.
   
 ## class TrainGenerate
@@ -87,13 +87,13 @@ Load the stock data you just download by Download.py and transform it to ML trai
   Default with N = [10, 30], the list including the n-days parameters you want features in your training data.
 
 ### Functions
--- **loadfile(file_name):**
+- **loadfile(file_name):**
   Give the file name you download by Download.py, read it and return with a Data Frame(with the format like 'Stock-2468days-to-20190521.txt')
--- **Set_param(self, start, end, N):**
+- **Set_param(self, start, end, N):**
   Reset the parameters start, end, and N (please reference in inputs of class TrainGenerate).
--- **generate()**
+- **generate()**
   Generate the desired training data with given parameters Data Frame as self.Data.
--- **save()**
+- **save()**
   Save the data you just generated as "20090901-to-20180831-training".
 
 (continue...)
