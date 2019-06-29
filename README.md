@@ -47,8 +47,55 @@ Given the corresponding input, get some financial features added.
 - **n (int)**
   parameter to calculate the features means how many days previous than the target data day you want to observe
 ### Functions
-- **Feature.verify:**
+- **Feature.verify():**
   Check if attributes data, target, dataset of Feature object reasonable. Print reason if not unreasonable.
+- **Feature.Reset(n, date, data):**
+  Give another set of inputs n, date, and data. (new input should also follow the format or might lead to errors)
+- **Feature.AddLabel(n_day):**
+  Add additional features corresponding to the given n_day value. (ex. 10 days Simple Moving Average, 10 days ...)
+- **getSMA(n, close):
+  given n days closing price (close), calculate the n-days Simple Moving Average and add as feature self.SMA.
+- **Feature.getWMA(n, close)**
+  given n days closing price (close), calculate the n-days Weighted Moving Average and add as feature self.WMA.
+- **Feature.M(n, close, low, high):**
+  given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Momentum value and add as feature self.M.
+- **getK(close, low, high):**
+  given current closing price (close), highest price (high), and lowest price (low), calculate the Stochastic-K value and add as feature self.K.
+- **getD(n, close, low, high):**
+  given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Stochastic-D value and add as feature self.D.
+-- **getRSI(n, close):**
+  given n days closing price (close), calculate the n-days Related Strengh Index and add as feature self.RSI.
+-- **getMACD(close, long = 26, short = 12):
+  given L days closing price (close) and parameters long-L and short-S (L>S), calculate the n-days Moving Average Convergence Divergence and add as feature self.MACD.
+-- **getLW(n, close, low, high):**
+  given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Larry William's R value and add as feature self.LW.
+-- **getAD(close, low, high):
+  given current closing price (close), highest price (high), and lowest price (low), calculate the A/D (Accumulation/Distribution) Oscillator value and add as feature self.AD.
+-- **getCCI(n, close, low, high):**
+  given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Commodity Channel Index value and add as feature self.CCI.
+  
+## class TrainGenerate
+Load the stock data you just download by Download.py and transform it to ML training data format(.csv).
+### Input
+- **file_name (str)**
+  Give the file name you download by Download.py (with the format like 'Stock-2468days-to-20190521.txt')
+- **start (str)**
+  The start date you want to generate training data (with format "YYYYMMDD" or "YYYY-MM-DD" or "YYYY/MM/DD", and shold be included in your txt file)
+- **end (str)**
+  The end date you want to generate training data (with format "YYYYMMDD" or "YYYY-MM-DD" or "YYYY/MM/DD", and shold be included in your txt file)
+- **N (list)**
+  Default with N = [10, 30], the list including the n-days parameters you want features in your training data.
+
+### Functions
+-- **loadfile(file_name):**
+  Give the file name you download by Download.py, read it and return with a Data Frame(with the format like 'Stock-2468days-to-20190521.txt')
+-- **Set_param(self, start, end, N):**
+  Reset the parameters start, end, and N (please reference in inputs of class TrainGenerate).
+-- **generate()**
+  Generate the desired training data with given parameters Data Frame as self.Data.
+-- **save()**
+  Save the data you just generated as "20090901-to-20180831-training".
+
 (continue...)
 
 
