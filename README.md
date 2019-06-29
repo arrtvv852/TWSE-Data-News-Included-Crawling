@@ -62,7 +62,7 @@ Given the corresponding input, get some financial features added.
   Give another set of inputs n, date, and data. (new input should also follow the format or might lead to errors)
 - **Feature.AddLabel(n_day):**
   Add additional features corresponding to the given n_day value. (ex. 10 days Simple Moving Average, 10 days ...)
-- **getSMA(n, close):
+- **getSMA(n, close):**
   given n days closing price (close), calculate the n-days Simple Moving Average and add as feature self.SMA.
 - **Feature.getWMA(n, close)**
   given n days closing price (close), calculate the n-days Weighted Moving Average and add as feature self.WMA.
@@ -74,11 +74,11 @@ Given the corresponding input, get some financial features added.
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Stochastic-D value and add as feature self.D.
 - **getRSI(n, close):**
   given n days closing price (close), calculate the n-days Related Strengh Index and add as feature self.RSI.
-- **getMACD(close, long = 26, short = 12):
+- **getMACD(close, long = 26, short = 12):**
   given L days closing price (close) and parameters long-L and short-S (L>S), calculate the n-days Moving Average Convergence Divergence and add as feature self.MACD.
 - **getLW(n, close, low, high):**
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Larry William's R value and add as feature self.LW.
-- **getAD(close, low, high):
+- **getAD(close, low, high):**
   given current closing price (close), highest price (high), and lowest price (low), calculate the A/D (Accumulation/Distribution) Oscillator value and add as feature self.AD.
 - **getCCI(n, close, low, high):**
   given n days closing price (close), highest price (high), and lowest price (low), calculate the n-days Commodity Channel Index value and add as feature self.CCI.
