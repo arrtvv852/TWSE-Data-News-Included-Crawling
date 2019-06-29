@@ -1,5 +1,6 @@
 # TWSE-Data-Scraping
-Scrap stock related data from twse website. **(The program is under developing, so be aware of some possible incorrect value in it if you want to use it...)**
+Scrap stock related data from twse website.
+**(Run Download.py firstly for scraping stock data from TWSE, then run Features.py to generate training data csv file for furthur analysis)**
 
 # Download.py
 Excute and give the period you want to download from (http://www.twse.com.tw/en/).
