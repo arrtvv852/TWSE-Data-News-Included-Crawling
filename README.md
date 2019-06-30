@@ -31,6 +31,20 @@ DataFrame with the columns:
 ### reference
 The source code of the Download is original based on finlab website (https://www.finlab.tw/categories/%E8%B2%A1%E5%A0%B1%E7%8B%97%E5%88%86%E6%9E%90/index.html)
 
+# NewsScrap.py
+Crawling stock news data from (https://mops.twse.com.tw/mops/web/t05st01).
+### input
+- stock ID (int)
+- start year (str with "YY" in Republic Era)
+- end year (str with "YY" in Republic Era)
+### output
+output data with data frame as a csv file.
+DataFrame with the columns:
+- **Date** - occurance date of the news.
+- **Time** - occurance time stamp of the news.
+- **Title** - title of the news.
+- **Content** - content of the news
+
 # Features.py
 Generate stock training data with correspond features from the input of dictionary files obtained by Download.py.
 ## User Manual
