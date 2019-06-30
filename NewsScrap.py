@@ -43,16 +43,29 @@ class ScrapNews:
             
             rows = table.find_elements_by_tag_name("tr")
             for r in range(1, len(rows)):
+                print(year, '-', r)
                 table = driver.find_element_by_class_name("hasBorder")
                 rows = table.find_elements_by_tag_name("tr")
                 try:
                     row = rows[r].find_element_by_tag_name("input")
                     ActionChains(driver).key_down(Keys.CONTROL).click(row).key_up(Keys.CONTROL).perform()
-                    driver.switch_to_window(driver.window_handles[1])
+                    driver.switch_to.window(driver.window_handles[1])
                 except:
+                    print("pass", r)
                     continue
                 time.sleep(1)
-                table = driver.find_element_by_class_name("hasBorder")
+                while True:
+                    try:
+                        table = driver.find_element_by_class_name("hasBorder")
+                        break
+                    except:
+                        driver.close()
+                        driver.switch_to.window(driver.window_handles[0])
+                        row = rows[r].find_element_by_tag_name("input")
+                        ActionChains(driver).key_down(Keys.CONTROL).click(row).key_up(Keys.CONTROL).perform()
+                        driver.switch_to.window(driver.window_handles[1])
+                        time.sleep(1)
+                        print("retry", r)
                 timeInfo = table.find_elements_by_tag_name("tr")[0]
                 titleInfo = table.find_elements_by_tag_name("tr")[2]
                 info = table.find_elements_by_tag_name("tr")[4]
@@ -69,7 +82,7 @@ class ScrapNews:
                 Content.append(content)
                 
                 driver.close()
-                driver.switch_to_window(driver.window_handles[0])
+                driver.switch_to.window(driver.window_handles[0])
                 time.sleep(1)
                 
         driver.close()
