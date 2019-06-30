@@ -34,6 +34,7 @@ class ScrapNews:
         Content = []
         for y in range(self.start, self.end+1):
             year = int(y)
+            driver.find_element_by_id("year").clear()
             driver.find_element_by_id("year").send_keys(year)
             
             driver.find_element_by_xpath('//input[@value=" 查詢 "]').click()
