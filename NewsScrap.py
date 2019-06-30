@@ -45,10 +45,13 @@ class ScrapNews:
             for r in range(1, len(rows)):
                 table = driver.find_element_by_class_name("hasBorder")
                 rows = table.find_elements_by_tag_name("tr")
-                row = rows[r].find_element_by_tag_name("input")
-                ActionChains(driver).key_down(Keys.CONTROL).click(row).key_up(Keys.CONTROL).perform()
-                driver.switch_to_window(driver.window_handles[1])
-                
+                try:
+                    row = rows[r].find_element_by_tag_name("input")
+                    ActionChains(driver).key_down(Keys.CONTROL).click(row).key_up(Keys.CONTROL).perform()
+                    driver.switch_to_window(driver.window_handles[1])
+                except:
+                    continue
+                time.sleep(1)
                 table = driver.find_element_by_class_name("hasBorder")
                 timeInfo = table.find_elements_by_tag_name("tr")[0]
                 titleInfo = table.find_elements_by_tag_name("tr")[2]
@@ -67,7 +70,7 @@ class ScrapNews:
                 
                 driver.close()
                 driver.switch_to_window(driver.window_handles[0])
-                time.sleep(2)
+                time.sleep(1)
                 
         driver.close()
         self.data = pd.DataFrame({"Date": Date, "Time": Time, "Title": Title, "Content": Content})
