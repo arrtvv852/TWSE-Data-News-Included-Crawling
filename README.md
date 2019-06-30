@@ -44,6 +44,9 @@ DataFrame with the columns:
 - **Time** - occurance time stamp of the news.
 - **Title** - title of the news.
 - **Content** - content of the news
+### notice
+- You should download chromdriver.exe from (https://sites.google.com/a/chromium.org/chromedriver/home) before you crawl news data.
+- Do not scroll or click the corresponding browser while crawling or might lead to crash.
 
 # Features.py
 Generate stock training data with correspond features from the input of dictionary files obtained by Download.py.
